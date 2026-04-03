@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: gm-league
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    # Setting the plan to starter, as persistent disks require the starter tier ($7/mo).
+    # If Render blocks this, remove 'disk' and use an external DB for a fully free tier.
+    plan: starter
+    disk:
+      name: gm-league-database
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_PATH
+        value: /opt/render/project/src/data/gm_league.db
+      - key: NODE_ENV
+        value: production
